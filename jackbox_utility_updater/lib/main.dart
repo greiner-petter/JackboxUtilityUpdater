@@ -28,12 +28,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FluentApp(
-      darkTheme: ThemeData(
+      darkTheme: FluentThemeData(
         brightness: Brightness.dark,
         accentColor: Colors.blue,
         visualDensity: VisualDensity.standard,
         focusTheme: FocusThemeData(
-          glowFactor: is10footScreen() ? 2.0 : 0.0,
+          glowFactor: is10footScreen(context) ? 2.0 : 0.0,
         ),
       ),
       localizationsDelegates: [
@@ -106,7 +106,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     setState(() {});
     if (Platform.isWindows) {
       Process.run("./app/jackbox_patcher.exe", []);
-    }else{
+    } else if (Platform.isMacOS) {
+      Process.run("./app/Jackbox\\ Utility.app/Contents/MacOS/Jackbox\\ Utility ", []);
+    } else {
       await Process.run("chmod", ["u+x","./app/JackboxUtility"]);
       Process.run("./app/JackboxUtility", []);
     }
